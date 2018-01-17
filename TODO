@@ -1,0 +1,3 @@
+-check modules for monitoring file system activity(for example: watchdog, wmi)
+-think about some valid way to install that module
+-test with few cases in home
