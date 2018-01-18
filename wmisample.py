@@ -2,7 +2,7 @@ import wmi
 
 
 def GetSomeParticularData():
-    return_message=[]
+    return_message=list()
     try:
         for netParams in wmi.WMI().Win32_NetworkAdapterConfiguration():
             if netParams.MACAddress != None and netParams.IPAddress != None and netParams.IPSubnet != None:
@@ -27,5 +27,10 @@ def GetSomeParticularData():
 
     except Exception as e:
         print(e)
-
+    # f=0
+    # for i in return_message:
+    #     print('Teraz drukuje komorke '+str(f)+':'+i)
+    #     f+=1
     return return_message
+
+

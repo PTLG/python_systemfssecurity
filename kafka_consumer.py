@@ -2,7 +2,7 @@ from kafka import KafkaConsumer
 
 
 consumer = KafkaConsumer(bootstrap_servers="localhost:9092")
-consumer.subscribe(['testing'])
+consumer.subscribe(['informations_about_device'])  #the topic name of subscribed data is very, VERY important
 
 for streamRecords in consumer:
     print(streamRecords[6])
