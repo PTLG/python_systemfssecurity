@@ -1,6 +1,7 @@
 from time import sleep
 import wmi
 
+
 connection=wmi.WMI()
 
 while True:
