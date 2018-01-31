@@ -1,13 +1,13 @@
 import wmi
 import time
-import datetime
-from threading import Thread
-import watchdog
-
+from watchdog import observers, events
+import logging
+import sys
+from threading import *
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(message)s')
 
 """
 TODO:
-*push the git things at next level - canceling pushed changes on github, and other things :D
 *gets familiar with watchdog module(for filesystem monitoring)
 *gets familiar with python design patterns
 *gets familiar with python application development
@@ -20,11 +20,26 @@ from file/cli(probably delegate the log management to kibana instance? ... issue
 
 """
 
+def watchdogMonitorDirectory():
+
+    path = sys.argv[1] if len(sys.argv) > 1 else '.'
+    event_handler = events.LoggingEventHandler()
+    observer = observers.Observer()
+    observer.schedule(event_handler, "C:/", recursive=True)
+    observer.start()
+
+
+def proccessDescription():
+    while True:
+
+        c2 = wmi.WMI()
+        for j in c2.Win32_Process():
+            logging.info((j.Caption, j.ExecutablePath, j.ProcessId))
+
 
 def hardDriveMonitor():
 
     while True:
-        c = wmi.WMI()
         # for disk in c.Win32_LogicalDisk(DriveType='3'):  #DriveType='3' or DriveType='2'
         #     #print(disk)
         #     ts = time.time()
@@ -35,18 +50,22 @@ def hardDriveMonitor():
             if disk.Caption=="A:":
                 pass
             else:
-                ts = time.time()
-                ds = datetime.datetime.fromtimestamp(ts)
-                print(ds ,disk.Caption, disk.Description, disk.DriveType, disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024), 'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024), "GB", disk.VolumeName)
-        time.sleep(30)
+                logging.info((disk.Caption, disk.Description, disk.DriveType, disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024), 'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024), "GB", disk.VolumeName))
+        time.sleep(5)
 
 
+def run():
+    t1 = Thread(target=watchdogMonitorDirectory)
+    t2 = Thread(target=hardDriveMonitor)
+    #t3 = Thread(target=proccessDescription)
 
-def startMonitoring():
-    t1 = Thread(target=hardDriveMonitor())
-    t1.start()
+    t1.run()
+    t2.run()
+    #t3.run()
 
 
 
 if __name__=="__main__":
-    startMonitoring()
+    while True:
+        run()
+        proccessDescription()
