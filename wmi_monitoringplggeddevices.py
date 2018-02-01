@@ -11,11 +11,14 @@ TODO:
 *gets familiar with watchdog module(for filesystem monitoring)
 *gets familiar with python design patterns
 *gets familiar with python application development
-*in the name of getting things done - gettings done python threading, mutlithreading, multiprocessing book
+*in the name of getting things done - gettings done python threading, 
+ mutlithreading, multiprocessing book
 
 TODO_EXTRA:
-*gets familiar with gathering data from kafka(producer/consumer) in more civilisated way than reading output
-from file/cli(probably delegate the log management to kibana instance? ... issue worth to think about it)
+*gets familiar with gathering data from kafka(producer/consumer) in 
+ more civilisated way than reading output from file/cli(probably 
+ delegate the log management to kibana instance? ... issue worth to
+ think about it)
 
 
 """
@@ -44,13 +47,18 @@ def hardDriveMonitor():
         #     #print(disk)
         #     ts = time.time()
         #     ds=datetime.datetime.fromtimestamp(ts)
-        #     print(ds ,disk.Caption, disk.Description, disk.DriveType, disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024), 'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024), 'GB', disk.VolumeName)
+        #     print(ds ,disk.Caption, disk.Description, disk.DriveType,
+        #           disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024),
+        #  'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024), 'GB', disk.VolumeName)
         c1 = wmi.WMI()
         for disk in c1.Win32_LogicalDisk(DriveType='2'):  #DriveType='3' or DriveType='2'
             if disk.Caption=="A:":
                 pass
             else:
-                logging.info((disk.Caption, disk.Description, disk.DriveType, disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024), 'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024), "GB", disk.VolumeName))
+                logging.info((disk.Caption, disk.Description, disk.DriveType,
+                        disk.FileSystem, "{:.2f}".format(int(disk.FreeSpace)/1024/1024/1024),
+                        'GB', "{:.2f}".format(int(disk.Size)/1024/1024/1024),
+                              "GB", disk.VolumeName))
         time.sleep(5)
 
 
