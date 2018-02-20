@@ -1,3 +1,0 @@
--check modules for monitoring file system activity(for example: watchdog, wmi) - checked
--think about some valid way to install that module - by some reason it's now working, after cloning from github
--test with few cases in home - work in progress
